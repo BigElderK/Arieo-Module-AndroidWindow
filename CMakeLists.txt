@@ -13,8 +13,6 @@ arieo_engine_project(
         ${CMAKE_CURRENT_SOURCE_DIR}/private/src/*/*.cpp
     PACKAGES
         game-activity
-        Arieo-Interface-Window
-        Arieo-Core
     INTERFACES
         Arieo-Interface-Window::arieo_window_interface
     PRIVATE_LIBS
