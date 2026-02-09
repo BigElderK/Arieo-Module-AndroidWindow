@@ -6,11 +6,8 @@ project(ArieoEngine)
 if(CMAKE_SYSTEM_NAME STREQUAL "Android")
 arieo_engine_project(
     arieo_android_win_module
-    ALIAS arieo::modules::window::android
     PROJECT_TYPE module
-    SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/private/src/*.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/private/src/*/*.cpp
+
     PACKAGES
         game-activity
         Arieo-Interface-Window
@@ -18,11 +15,13 @@ arieo_engine_project(
     INTERFACES
         Arieo-Interface-Window::arieo_window_interface
     PRIVATE_LIBS
-        arieo::base
-        arieo::core
-    LIBS
+        Arieo-Core::arieo_core
         game-activity::game-activity_static
         android
         log
+    
+    SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/private/src/*.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/private/src/*/*.cpp
 )
 endif()
