@@ -12,21 +12,23 @@ if(ARIEO_HOST_OS STREQUAL "android")
             arieo_android_win_module
             PROJECT_TYPE module
 
-            PACKAGES
-                game-activity
-                Arieo-Interface-Window
-                Arieo-Core
-            INTERFACES
-                Arieo-Interface-Window::arieo_window_interface
-            PRIVATE_LIBS
-                Arieo-Core::arieo_core
-                game-activity::game-activity_static
-                android
-                log
-            
+            DEPENDENCIES
+                PACKAGES
+                    game-activity
+                    Arieo-Interface-Window
+                    Arieo-Core
+                INTERFACES
+                    Arieo-Interface-Window::arieo_window_interface
+                PRIVATE_LIBS
+                    Arieo-Core::arieo_core
+                    game-activity::game-activity_static
+                    android
+                    log
+
             SOURCES
-                ${CMAKE_CURRENT_SOURCE_DIR}/private/src/*.cpp
-                ${CMAKE_CURRENT_SOURCE_DIR}/private/src/*/*.cpp
+                CXX_SOURCES
+                    ${CMAKE_CURRENT_SOURCE_DIR}/private/src/*.cpp
+                    ${CMAKE_CURRENT_SOURCE_DIR}/private/src/*/*.cpp
         )
     else()
         # game-activity not available on Android platform
