@@ -1,14 +1,21 @@
 cmake_minimum_required (VERSION 3.31)
 
 include($ENV{ARIEO_BUILD_ENV_PACKAGES_OUTPUT_DIR}/cmake/build_environment.cmake)
-project(ArieoEngine)
+
+ARIEO_PACKAGE(
+    Arieo-Module-AndroidWindow
+    CATEGORY 02_engine
+    DEPENDS
+        https://github.com/BigElderK/Arieo-Core.git@main
+        https://github.com/BigElderK/Arieo-Interface-Window.git@main
+)
 
 # Only build for Android platforms
 if(ARIEO_HOST_OS STREQUAL "android")
     # Check if game-activity is available before building
     find_package(game-activity QUIET)
     if(TARGET game-activity::game-activity_static)
-        arieo_engine_project(
+        ARIEO_ENGINE_PROJECT(
             arieo_android_win_module
             PROJECT_TYPE module
 
@@ -18,9 +25,8 @@ if(ARIEO_HOST_OS STREQUAL "android")
                     Arieo-Interface-Window
                 THIRDPARTY_PACKAGES
                     game-activity
-                INTERFACES
-                    Arieo-Interface-Window::arieo_window_interface
                 PRIVATE_LIBS
+                    Arieo-Interface-Window::arieo_window_interface
                     Arieo-Core::arieo_core
                     game-activity::game-activity_static
                     android
