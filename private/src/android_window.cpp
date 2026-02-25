@@ -74,13 +74,14 @@ namespace Arieo
 
     void AndroidWindowManager::destroyWindow(Base::Interface<Interface::Window::IWindow> window)
     {
-        AndroidWindow* android_window = Base::castInterfaceToInstance<AndroidWindow>(window);
+        AndroidWindow* android_window = window.castTo<AndroidWindow>();
         if(android_window != m_android_main_window)
         {
             Core::Logger::error("Attempted to destroy a non-AndroidWindow with AndroidWindowManager");
             return;
         }
         Core::Logger::warn("Destroying AndroidWindow. Note: The underlying native window is managed by the Android system. Actually do nothing now.");
+        // android_window.destroyAs<AndroidWindow>();
     }
 
     void AndroidWindowManager::onInitialize()
