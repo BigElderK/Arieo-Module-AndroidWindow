@@ -1,5 +1,6 @@
 #pragma once
 #include "interface/window/window.h"
+#include "base/interface/interface.h"
 
 #if defined(ARIEO_PLATFORM_ANDROID)
 #include <android/native_window.h>
@@ -51,9 +52,9 @@ namespace Arieo
             return m_android_app->window == nullptr;
         }
 
-        Interface::Window::IWindowManager* getWindowManager() override
+        Base::Interface<Interface::Window::IWindowManager> getWindowManager() override
         {
-            return m_window_manager;
+            return m_window_manager.get();
         }
         
         Base::StringID getWindowPlatform() override
@@ -64,7 +65,7 @@ namespace Arieo
     private:
         android_app* m_android_app;
         friend class AndroidWindowManager;
-        Interface::Window::IWindowManager* m_window_manager;
+        Base::Interface<Interface::Window::IWindowManager> m_window_manager;
     };
 
     class AndroidWindowManager final
@@ -79,10 +80,10 @@ namespace Arieo
 
         void* getDisplay() override;
 
-        Interface::Window::IWindow* createWindow(std::uint16_t pos_x, std::uint16_t pos_y, std::uint16_t width, std::uint16_t height) override;
-        void destroyWindow(Interface::Window::IWindow*) override;
+        Base::Interface<Interface::Window::IWindow> createWindow(std::uint16_t pos_x, std::uint16_t pos_y, std::uint16_t width, std::uint16_t height) override;
+        void destroyWindow(Base::Interface<Interface::Window::IWindow>) override;
 
-        Interface::Window::IWindow* getMainWindow() override;
+        Base::Interface<Interface::Window::IWindow> getMainWindow() override;
 
         void onInitialize() override;
         void onTick() override;

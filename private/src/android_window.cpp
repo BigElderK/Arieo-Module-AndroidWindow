@@ -38,7 +38,7 @@ namespace Arieo
         return m_android_app->window;
     }
 
-    Interface::Window::IWindow* AndroidWindowManager::createWindow(std::uint16_t pos_x, std::uint16_t pos_y, std::uint16_t width, std::uint16_t height)
+    Base::Interface<Interface::Window::IWindow> AndroidWindowManager::createWindow(std::uint16_t pos_x, std::uint16_t pos_y, std::uint16_t width, std::uint16_t height)
     {
         // On Android, we can't really create arbitrary windows like on desktop
         // We work with the single native window provided by the Android system
@@ -46,7 +46,7 @@ namespace Arieo
         return nullptr;
     }
 
-    Interface::Window::IWindow* AndroidWindowManager::getMainWindow()
+    Base::Interface<Interface::Window::IWindow> AndroidWindowManager::getMainWindow()
     {
         if(m_android_main_window == nullptr)
         {
@@ -72,7 +72,7 @@ namespace Arieo
         return m_android_main_window;
     }
 
-    void AndroidWindowManager::destroyWindow(Interface::Window::IWindow* window)
+    void AndroidWindowManager::destroyWindow(Base::Interface<Interface::Window::IWindow> window)
     {
         AndroidWindow* android_window = Base::castInterfaceToInstance<AndroidWindow>(window);
         if(android_window != m_android_main_window)
