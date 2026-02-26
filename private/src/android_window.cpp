@@ -64,7 +64,7 @@ namespace Arieo
             }
 
             // Create our wrapper around the native window
-            m_android_main_window = Base::newT<AndroidWindow>(this, m_android_app);
+            m_android_main_window = Base::Interface<Interface::Window::IWindow>::createAs<AndroidWindow>(m_self, m_android_app);
             Core::Logger::info("Created Android window with native window handle: {}", 
                               reinterpret_cast<std::uint64_t>(m_android_app->window));
         }
@@ -74,8 +74,7 @@ namespace Arieo
 
     void AndroidWindowManager::destroyWindow(Base::Interface<Interface::Window::IWindow> window)
     {
-        AndroidWindow* android_window = window.castTo<AndroidWindow>();
-        if(android_window != m_android_main_window)
+        if(window != m_android_main_window)
         {
             Core::Logger::error("Attempted to destroy a non-AndroidWindow with AndroidWindowManager");
             return;

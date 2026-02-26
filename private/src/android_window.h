@@ -13,7 +13,7 @@ namespace Arieo
         : public Interface::Window::IWindow
     {
     public:
-        AndroidWindow(Interface::Window::IWindowManager* window_manager, android_app* android_app)
+        AndroidWindow(Base::Interface<Interface::Window::IWindowManager> window_manager, android_app* android_app)
             : m_window_manager(window_manager), m_android_app(android_app)
         {
         }
@@ -73,7 +73,7 @@ namespace Arieo
     {
     protected:
         android_app* m_android_app;
-        AndroidWindow* m_android_main_window = nullptr;
+        Base::Interface<Interface::Window::IWindow> m_android_main_window = nullptr;
     public:
         void initialize(void* app);
         void finalize();
@@ -94,6 +94,12 @@ namespace Arieo
         
         // Handle Android app lifecycle events
         void handleAppCmd(int32_t cmd);
+
+    public:
+        // for module main to call
+        void setSelf(Base::Interface<Interface::Window::IWindowManager> self){ m_self = self; }
+    private:
+        Base::Interface<Interface::Window::IWindowManager> m_self = nullptr;
     };
 }
 

@@ -15,7 +15,7 @@ namespace Arieo
 
         static struct DllLoader
         {
-            AndroidWindowManager android_window_manager;
+            Base::Instance<AndroidWindowManager> android_window_manager;
 
             DllLoader()
             {
@@ -30,13 +30,16 @@ namespace Arieo
                 Base::Interface<Interface::Main::IMainModule> main_module = Core::ModuleManager::getInterface<Interface::Main::IMainModule>();
                 if (main_module)
                 {
-                    android_window_manager.initialize(main_module->getAppHandle());
-                    main_module->registerTickable(&android_window_manager);
+                    android_window_manager->initialize(main_module->getAppHandle());
+                    android_window_manager->setSelf(android_window_manager.queryInterface<Interface::Window::IWindowManager>());
+                    
+                    main_module->registerTickable(android_window_manager.queryInterface<Interface::Main::ITickable>());
                 }
 
-                Core::ModuleManager::registerInterface<Interface::Window::IWindowManager>(
+                Core::ModuleManager::registerInstance<Interface::Window::IWindowManager, AndroidWindowManager>(
                     "android_window_manager", 
-                    &android_window_manager
+                    android_window_manager
+
                 );
                 
                 Core::Logger::info("Android window module initialized");
@@ -44,10 +47,10 @@ namespace Arieo
 
             ~DllLoader()
             {
-                Core::ModuleManager::unregisterInterface<Interface::Window::IWindowManager>(
-                    &android_window_manager
+                Core::ModuleManager::unregisterInstance<Interface::Window::IWindowManager, AndroidWindowManager>(
+                    android_window_manager
                 );
-                android_window_manager.finalize();
+                android_window_manager->finalize();
                 Core::Logger::info("Android window module finalized");
             }
         } dll_loader;
