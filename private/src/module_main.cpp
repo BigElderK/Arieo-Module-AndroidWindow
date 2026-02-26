@@ -31,7 +31,6 @@ namespace Arieo
                 if (main_module)
                 {
                     android_window_manager->initialize(main_module->getAppHandle());
-                    android_window_manager->setSelf(android_window_manager.queryInterface<Interface::Window::IWindowManager>());
                     
                     main_module->registerTickable(android_window_manager.queryInterface<Interface::Main::ITickable>());
                 }
