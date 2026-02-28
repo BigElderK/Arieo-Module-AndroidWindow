@@ -1,6 +1,6 @@
 #pragma once
 #include "interface/window/window.h"
-#include "base/interface/interface.h"
+#include "base/interop/interface.h"
 
 #if defined(ARIEO_PLATFORM_ANDROID)
 #include <android/native_window.h>
