@@ -67,17 +67,17 @@ namespace Arieo
     {
     protected:
         android_app* m_android_app;
-        Base::Interop<Interface::Window::IWindow> m_android_main_window = nullptr;
+        Base::InteropOld<Interface::Window::IWindow> m_android_main_window = nullptr;
     public:
         void initialize(void* app);
         void finalize();
 
         void* getDisplay() override;
 
-        Base::Interop<Interface::Window::IWindow> createWindow(std::uint16_t pos_x, std::uint16_t pos_y, std::uint16_t width, std::uint16_t height) override;
-        void destroyWindow(Base::Interop<Interface::Window::IWindow>) override;
+        Base::InteropOld<Interface::Window::IWindow> createWindow(std::uint16_t pos_x, std::uint16_t pos_y, std::uint16_t width, std::uint16_t height) override;
+        void destroyWindow(Base::InteropOld<Interface::Window::IWindow>) override;
 
-        Base::Interop<Interface::Window::IWindow> getMainWindow() override;
+        Base::InteropOld<Interface::Window::IWindow> getMainWindow() override;
 
         void onInitialize() override;
         void onTick() override;

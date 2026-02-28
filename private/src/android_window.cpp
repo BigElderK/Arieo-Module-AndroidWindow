@@ -38,7 +38,7 @@ namespace Arieo
         return m_android_app->window;
     }
 
-    Base::Interop<Interface::Window::IWindow> AndroidWindowManager::createWindow(std::uint16_t pos_x, std::uint16_t pos_y, std::uint16_t width, std::uint16_t height)
+    Base::InteropOld<Interface::Window::IWindow> AndroidWindowManager::createWindow(std::uint16_t pos_x, std::uint16_t pos_y, std::uint16_t width, std::uint16_t height)
     {
         // On Android, we can't really create arbitrary windows like on desktop
         // We work with the single native window provided by the Android system
@@ -46,7 +46,7 @@ namespace Arieo
         return nullptr;
     }
 
-    Base::Interop<Interface::Window::IWindow> AndroidWindowManager::getMainWindow()
+    Base::InteropOld<Interface::Window::IWindow> AndroidWindowManager::getMainWindow()
     {
         if(m_android_main_window == nullptr)
         {
@@ -64,7 +64,7 @@ namespace Arieo
             }
 
             // Create our wrapper around the native window
-            m_android_main_window = Base::Interop<Interface::Window::IWindow>::createAs<AndroidWindow>(m_android_app);
+            m_android_main_window = Base::InteropOld<Interface::Window::IWindow>::createAs<AndroidWindow>(m_android_app);
             Core::Logger::info("Created Android window with native window handle: {}", 
                               reinterpret_cast<std::uint64_t>(m_android_app->window));
         }
@@ -72,7 +72,7 @@ namespace Arieo
         return m_android_main_window;
     }
 
-    void AndroidWindowManager::destroyWindow(Base::Interop<Interface::Window::IWindow> window)
+    void AndroidWindowManager::destroyWindow(Base::InteropOld<Interface::Window::IWindow> window)
     {
         if(window != m_android_main_window)
         {
@@ -80,7 +80,7 @@ namespace Arieo
             return;
         }
         Core::Logger::warn("Destroying AndroidWindow. Note: The underlying native window is managed by the Android system. Actually do nothing now.");
-        // Base::Interop<Interface::Window::IWindow>::destroyAs<AndroidWindow>(std::move(window));
+        // Base::InteropOld<Interface::Window::IWindow>::destroyAs<AndroidWindow>(std::move(window));
     }
 
     void AndroidWindowManager::onInitialize()
