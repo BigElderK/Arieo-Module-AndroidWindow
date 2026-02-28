@@ -27,7 +27,7 @@ namespace Arieo
                 //     g_android_app->onAppCmd = android_app_cmd_callback;
                 // }
                 
-                Base::InteropOld<Interface::Main::IMainModule> main_module = Core::ModuleManager::getInterface<Interface::Main::IMainModule>();
+                Base::Interop::RawRef<Interface::Main::IMainModule> main_module = Core::ModuleManager::getInterface<Interface::Main::IMainModule>();
                 if (main_module)
                 {
                     android_window_manager->initialize(main_module->getAppHandle());
@@ -57,3 +57,7 @@ namespace Arieo
 }
 
 #endif // ARIEO_PLATFORM_ANDROID
+
+
+
+
