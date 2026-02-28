@@ -80,7 +80,7 @@ namespace Arieo
             return;
         }
         Core::Logger::warn("Destroying AndroidWindow. Note: The underlying native window is managed by the Android system. Actually do nothing now.");
-        // android_window.destroyAs<AndroidWindow>();
+        // Base::Interop<Interface::Window::IWindow>::destroyAs<AndroidWindow>(std::move(window));
     }
 
     void AndroidWindowManager::onInitialize()
