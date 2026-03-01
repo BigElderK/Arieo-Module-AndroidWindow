@@ -15,41 +15,40 @@ namespace Arieo
 
         static struct DllLoader
         {
-            Base::Instance<AndroidWindowManager> android_window_manager;
+            AndroidWindowManager android_window_manager_instance;
+            Base::Interop::SharedRef<Interface::Window::IWindowManager> window_manager = Base::Interop::makePersistentShared<Interface::Window::IWindowManager>(android_window_manager_instance);
 
             DllLoader()
             {
-                
                 // Set up android app callback if available
                 // if (g_android_app != nullptr)
                 // {
-                //     android_window_manager.setAndroidApp(g_android_app);
+                //     android_window_manager_instance.setAndroidApp(g_android_app);
                 //     g_android_app->onAppCmd = android_app_cmd_callback;
                 // }
-                
-                Base::Interop::RawRef<Interface::Main::IMainModule> main_module = Core::ModuleManager::getInterface<Interface::Main::IMainModule>();
+
+                Base::Interop::SharedRef<Interface::Main::IMainModule> main_module = Core::ModuleManager::getInterface<Interface::Main::IMainModule>();
                 if (main_module)
                 {
-                    android_window_manager->initialize(main_module->getAppHandle());
-                    
-                    main_module->registerTickable(android_window_manager.queryInterface<Interface::Main::ITickable>());
+                    android_window_manager_instance.initialize(main_module->getAppHandle());
+
+                    main_module->registerTickable(window_manager);
                 }
 
-                Core::ModuleManager::registerInstance<Interface::Window::IWindowManager, AndroidWindowManager>(
-                    "android_window_manager", 
-                    android_window_manager
-
+                Core::ModuleManager::registerInterface<Interface::Window::IWindowManager>(
+                    "android_window_manager",
+                    window_manager
                 );
-                
+
                 Core::Logger::info("Android window module initialized");
             }
 
             ~DllLoader()
             {
-                Core::ModuleManager::unregisterInstance<Interface::Window::IWindowManager, AndroidWindowManager>(
-                    android_window_manager
+                Core::ModuleManager::unregisterInterface<Interface::Window::IWindowManager>(
+                    window_manager
                 );
-                android_window_manager->finalize();
+                android_window_manager_instance.finalize();
                 Core::Logger::info("Android window module finalized");
             }
         } dll_loader;
